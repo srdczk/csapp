@@ -288,7 +288,20 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+    // s, exp, frac 分别分析
+    unsigned s = uf & 0x80000000;
+    unsigned exp = (uf & 0x7f800000) >> 23;
+    unsigned frac = uf & 0x007fffff;
+    // 如果 是 极小数
+    if (!exp) {
+        frac += frac;
+        return s | frac;
+    }
+    if (!(exp ^ 0xff)) return uf;
+    // 超出界限
+    if (!(exp ^ 0xfe)) return s | 0x7f800000;
+
+    return s | ((exp + 1) << 23) | frac;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -303,7 +316,22 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+    int s = uf & 0x80000000;
+    int exp = (uf & 0x7f800000) >> 23;
+    int frac = uf & 0x007fffff;
+    int E = exp - 127;
+    int val;
+    if (exp < 127) return 0;
+    if (exp >= 158) return 0x80000000;
+    if (E >= 23) {
+        val = (1 << E) | (frac << (E - 23));
+        if (s) return ~val + 1;
+        return val;
+    } 
+    frac >>= (23 - E);
+    val = (1 << E) | (frac);
+    if (s) return ~val + 1;
+    return val;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
