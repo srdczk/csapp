@@ -347,5 +347,9 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+    // u最小表示的值
+    if (x < -149) return 0;
+    if (x < -126) return 1 << (x + 149);
+    if (x > -127 && x < 128) return (x + 127) << 23;
+    return 0x7f800000;
 }
