@@ -1,13 +1,7 @@
-phase_1: Border relations with Canada have never been better.
-
-phase_2: 1 2 4 8 16 32
-
-phase_3:(0 207) | (1 311) | (2 707) | (3 256) | (4 389) | (5 206) | (6 682)
-
-phase_4: 7 0
-
-phase_5: [iy]on[eu][fv][gw]
-
-phase_6: 4 3 2 1 6 5
-
-secret_phase: 22
+Border relations with Canada have never been better.
+1 2 4 8 16 32
+0 207 DrEvil
+7 0 DrEvil
+ionefg
+4 3 2 1 6 5
+22
